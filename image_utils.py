@@ -14,28 +14,28 @@ FONTS_DIR = BASE_DIR / "fonts"
 # --- Exact Coordinates & Limits for daily_plan_empty_2.jpeg ---
 COORDINATES = {
     "DailyPlan": {
-        # Administrative Fields (sitting neatly on top of the underlines)
-        "Topic": (220, 195),
-        "LessonNo": (220, 216),
-        "TeacherName": (310, 236),
-        "SubjectTitleCode": (310, 256),
-        "Technology": (220, 276),
-        "Year": (590, 276),
+        # Administrative Fields (Shifted Down & Right)
+        "Topic": (320, 270),
+        "LessonNo": (250, 295),
+        "TeacherName": (420, 330),
+        "SubjectTitleCode": (420, 370),
+        "Technology": (320, 410),
+        "Year": (700, 410),
 
-        # AI Generated Sections
-        "SpecificObjectives": (120, 320),
-        "Introduction": (120, 365),
-        "Presentation": (120, 410),
-        "TeachingAids": (120, 452),
+        # AI Generated Sections (Shifted Down)
+        "SpecificObjectives": (150, 480),
+        "Introduction": (150, 550),
+        "Presentation": (150, 620),
+        "TeachingAids": (150, 690),
 
-        # 3-Column Table
-        "LessonContents": (125, 525),
-        "KeyPoints": (345, 525),
-        "TimeAllocation": (745, 525),
+        # 3-Column Table (Shifted deep down into the boxes)
+        "LessonContents": (150, 780),
+        "KeyPoints": (450, 780),
+        "TimeAllocation": (800, 780),
 
         # Bottom Sections
-        "ActivityFeedback": (120, 688),
-        "Assignment": (120, 728),
+        "ActivityFeedback": (150, 1150),
+        "Assignment": (150, 1220),
     },
 
     "WeeklyPlan": {
@@ -51,27 +51,27 @@ COORDINATES = {
 
 MAX_WIDTHS = {
     "DailyPlan": {
-        "Topic": 500,
-        "LessonNo": 250,
-        "TeacherName": 450,
-        "SubjectTitleCode": 450,
-        "Technology": 300,
+        "Topic": 450,
+        "LessonNo": 200,
+        "TeacherName": 400,
+        "SubjectTitleCode": 400,
+        "Technology": 250,
         "Year": 150,
 
-        "SpecificObjectives": 700,
-        "Introduction": 700,
-        "Presentation": 700,
-        "TeachingAids": 700,
+        "SpecificObjectives": 850,
+        "Introduction": 850,
+        "Presentation": 850,
+        "TeachingAids": 850,
 
-        "LessonContents": 200,   # Left column
-        "KeyPoints": 380,        # Middle column
-        "TimeAllocation": 90,    # Right column
+        "LessonContents": 280,   # Stays rigidly in the left box
+        "KeyPoints": 320,        # Stays rigidly in the middle box
+        "TimeAllocation": 100,   # Stays rigidly in the right box
 
-        "ActivityFeedback": 700,
-        "Assignment": 700,
+        "ActivityFeedback": 850,
+        "Assignment": 850,
     },
     "WeeklyPlan": {
-        "TopicsWeeklyPlanner": 700,
+        "TopicsWeeklyPlanner": 850,
     }
 }
 
