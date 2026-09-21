@@ -17,9 +17,9 @@ st.write("Generate a Daily or Weekly lesson plan in standard Urdu and place it o
 with st.sidebar:
     st.header("Configuration")
     api_key = st.text_input(
-        "OpenAI API Key",
+        "Groq API Key",
         type="password",
-        help="You can also store OPENAI_API_KEY in Streamlit Secrets.",
+        help="You can also store GROQ_API_KEY in Streamlit Secrets.",
     )
     st.caption("Your API key is used only for the current app session.")
 
@@ -139,13 +139,17 @@ if st.button("Generate Plan", type="primary", use_container_width=True):
         st.stop()
 
     try:
-        client = OpenAI(api_key=api_key)
+        # This tells the OpenAI library to route the request to Groq instead
+        client = OpenAI(
+            api_key=api_key,
+            base_url="https://api.groq.com/openai/v1"
+        )
 
         with st.spinner("Generating Urdu lesson plan..."):
             prompt = daily_prompt(user_data) if template_type == "Daily Lesson Plan" else weekly_prompt(user_data)
 
             response = client.chat.completions.create(
-                model="gpt-4o",
+                model="llama3-70b-8192",
                 response_format={"type": "json_object"},
                 messages=[
                     {
