@@ -1,0 +1,5 @@
+streamlit
+openai
+pillow
+arabic-reshaper
+python-bidi
