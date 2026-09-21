@@ -149,7 +149,7 @@ if st.button("Generate Plan", type="primary", use_container_width=True):
             prompt = daily_prompt(user_data) if template_type == "Daily Lesson Plan" else weekly_prompt(user_data)
 
             response = client.chat.completions.create(
-                model="llama3-70b-8192",
+                model="openai/gpt-oss-20b",
                 response_format={"type": "json_object"},
                 messages=[
                     {
