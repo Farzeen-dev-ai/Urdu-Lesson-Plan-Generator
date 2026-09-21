@@ -25,9 +25,9 @@ with st.sidebar:
 
     if not api_key:
         try:
-            api_key = st.secrets.get("OPENAI_API_KEY", "")
+            api_key = st.secrets.get("GROQ_API_KEY", "")
         except Exception:
-            api_key = os.getenv("OPENAI_API_KEY", "")
+            api_key = os.getenv("GROQ_API_KEY", "")
 
 template_type = st.selectbox(
     "Template Type",
