@@ -78,9 +78,9 @@ else:
 
 def daily_prompt(data):
     return f"""
-You are an expert teacher preparing a formal lesson plan.
+You are an expert Urdu teacher preparing a lesson plan.
 
-Create a detailed lesson plan for the following information:
+Create a lesson plan for:
 Topic: {data["Topic"]}
 Lesson No.: {data["LessonNo"]}
 Teacher: {data["TeacherName"]}
@@ -88,7 +88,7 @@ Subject Title & Code: {data["SubjectTitleCode"]}
 Technology: {data["Technology"]}
 Year: {data["Year"]}
 
-Return ONLY one valid JSON object. Do not use Markdown fences.
+Return ONLY one valid JSON object.
 The JSON object MUST contain exactly these keys:
 SpecificObjectives
 Introduction
@@ -100,11 +100,11 @@ TimeAllocation
 ActivityFeedback
 Assignment
 
-All values must be written strictly in standard, natural Urdu.
-Keep the content educational, clear, age-appropriate, and practical.
-TimeAllocation should contain realistic time allocations.
+CRITICAL RULES:
+1. Write ALL values strictly in natural Urdu text.
+2. DO NOT use numbered lists like 1., 2., 3. or English symbols.
+3. For TimeAllocation, write plain Urdu text like "10 منٹ" or "15 منٹ".
 """
-
 def weekly_prompt(data):
     return f"""
 You are an expert teacher preparing a formal weekly lesson plan.
