@@ -15,7 +15,7 @@ FONTS_DIR = BASE_DIR / "fonts"
 COORDINATES = {
     "DailyPlan": {
         # Administrative Fields (Shifted Down & Right)
-        "Topic": (320, 270),
+        "Topic": (320, 200),
         "LessonNo": (250, 295),
         "TeacherName": (420, 330),
         "SubjectTitleCode": (420, 370),
