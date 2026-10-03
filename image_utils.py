@@ -17,10 +17,10 @@ COORDINATES = {
         # Administrative Fields (Shifted Down & Right)
         "Topic": (340, 310),
         "LessonNo": (306, 347),
-        "TeacherName": (401, 384),
-        "SubjectTitleCode": (397, 413),
-        "Technology": (317, 440),
-        "Year": (743, 442),
+        "TeacherName": (393, 381),
+        "SubjectTitleCode": (386, 411),
+        "Technology": (297, 439),
+        "Year": (747, 440),
 
         # AI Generated Sections (Shifted Down)
         "SpecificObjectives": (150, 480),
