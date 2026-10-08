@@ -189,7 +189,7 @@ if st.button("Generate Plan", type="primary", use_container_width=True):
             output_bytes = render_lesson_plan(template_type, merged_data)
 
         st.subheader("Finished Lesson Plan")
-        st.image(output_bytes, use_container_width=True)
+        st.image(output_bytes, width="stretch")
 
         filename = (
             "daily_lesson_plan.png"
@@ -202,7 +202,7 @@ if st.button("Generate Plan", type="primary", use_container_width=True):
             data=output_bytes,
             file_name=filename,
             mime="image/png",
-            use_container_width=True,
+            width="stretch",
         )
 
     except json.JSONDecodeError:

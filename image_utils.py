@@ -15,27 +15,28 @@ FONTS_DIR = BASE_DIR / "fonts"
 COORDINATES = {
     "DailyPlan": {
         # Administrative Fields (Shifted Down & Right)
-        "Topic": (340, 310),
-        "LessonNo": (306, 347),
-        "TeacherName": (393, 381),
-        "SubjectTitleCode": (386, 411),
-        "Technology": (297, 439),
-        "Year": (747, 440),
+        "Topic": (270, 333),
+        "LessonNo": (270, 365),
+        "TeacherName": (372, 393),
+        "SubjectTitleCode": (375, 425),
+        "Technology": (273, 450),
+        "Year": (725, 453),
 
         # AI Generated Sections (Shifted Down)
-        "SpecificObjectives": (150, 480),
-        "Introduction": (150, 550),
-        "Presentation": (150, 620),
-        "TeachingAids": (150, 690),
+        "SpecificObjectives": (150, 537),
+        "Introduction": (150, 598),
+        "Presentation": (150, 661),
+        "TeachingAids": (150, 725),
 
-        # 3-Column Table (Shifted deep down into the boxes)
-        "LessonContents": (150, 780),
-        "KeyPoints": (450, 780),
-        "TimeAllocation": (800, 780),
+        # 3-Column Table
+        "LessonContents": (130, 830),
+        "KeyPoints": (405, 830),
+        "TimeAllocation": (915, 830),
 
         # Bottom Sections
-        "ActivityFeedback": (150, 1150),
-        "Assignment": (150, 1220),
+        "ActivityFeedback": (140, 1105),
+        "Assignment": (140, 1163),
+
     },
 
     "WeeklyPlan": {
@@ -51,21 +52,22 @@ COORDINATES = {
 
 MAX_WIDTHS = {
     "DailyPlan": {
-        "Topic": 450,
-        "LessonNo": 200,
-        "TeacherName": 400,
-        "SubjectTitleCode": 400,
-        "Technology": 250,
-        "Year": 150,
+        "Topic": 690,
+        "LessonNo": 300,
+        "TeacherName": 720,
+        "SubjectTitleCode": 710,
+        "Technology": 430,
+        "Year": 250,
 
-        "SpecificObjectives": 850,
-        "Introduction": 850,
-        "Presentation": 850,
-        "TeachingAids": 850,
+        "SpecificObjectives": 820,
+        "Introduction": 820,
+        "Presentation": 820,
+        "TeachingAids": 820,
 
-        "LessonContents": 280,   # Stays rigidly in the left box
-        "KeyPoints": 320,        # Stays rigidly in the middle box
-        "TimeAllocation": 100,   # Stays rigidly in the right box
+        # 3-Column Table
+        "LessonContents": 278,
+        "KeyPoints": 510,
+        "TimeAllocation": 130,
 
         "ActivityFeedback": 850,
         "Assignment": 850,
@@ -122,23 +124,23 @@ def draw_rtl_text(
     fill: str = "black",
     max_width: int | None = None,
     line_spacing: int = 4,
+    align_right: bool = False,
 ):
-    """Draws RTL text preserving newlines and preventing overlap."""
+    """Draws RTL Urdu text with optional right alignment."""
+
     text = "" if text is None else str(text)
     paragraphs = text.split('\n')
-    
-    x, y = xy
+
+    x, baseline_y = xy
+
     bbox = draw.textbbox((0, 0), "Ag", font=font)
     line_height = (bbox[3] - bbox[1]) + line_spacing
 
+    current_y = baseline_y
+
     for paragraph in paragraphs:
         if not paragraph.strip():
-            y += line_height
-            continue
-
-        if not max_width:
-            draw.text((x, y), shape_urdu(paragraph), font=font, fill=fill)
-            y += line_height
+            current_y += line_height
             continue
 
         words = paragraph.split(' ')
@@ -146,13 +148,21 @@ def draw_rtl_text(
         current = ""
 
         for word in words:
-            if not word: continue
+            if not word:
+                continue
+
             candidate = f"{current} {word}".strip()
             display_candidate = shape_urdu(candidate)
-            bbox = draw.textbbox((0, 0), display_candidate, font=font)
+
+            bbox = draw.textbbox(
+                (0, 0),
+                display_candidate,
+                font=font
+            )
+
             width = bbox[2] - bbox[0]
 
-            if current and width > max_width:
+            if current and max_width and width > max_width:
                 lines.append(current)
                 current = word
             else:
@@ -162,8 +172,24 @@ def draw_rtl_text(
             lines.append(current)
 
         for line in lines:
-            draw.text((x, y), shape_urdu(line), font=font, fill=fill)
-            y += line_height
+            rendered = shape_urdu(line)
+
+            if align_right and max_width:
+                draw_x = x + max_width
+                anchor = "rs"
+            else:
+                draw_x = x
+                anchor = "ls"
+
+            draw.text(
+                (draw_x, current_y),
+                rendered,
+                font=font,
+                fill=fill,
+                anchor=anchor
+            )
+
+            current_y += line_height
 
 
 def _template_path(template_type: str) -> Path:
@@ -197,7 +223,14 @@ def render_lesson_plan(template_type: str, data: dict[str, Any]) -> bytes:
 
     for field in admin_fields:
         if field in coordinate_group and field in data:
-            draw_rtl_text(draw, coordinate_group[field], data[field], admin_font, max_width=width_group.get(field, 400))
+            draw_rtl_text(
+                draw,
+                coordinate_group[field],
+                data[field],
+                admin_font,
+                max_width=width_group.get(field, 400),
+                align_right=True
+            )
 
     ai_fields = (
         ["SpecificObjectives", "Introduction", "Presentation", "TeachingAids", 
@@ -212,7 +245,14 @@ def render_lesson_plan(template_type: str, data: dict[str, Any]) -> bytes:
             if isinstance(value, (dict, list)):
                 value = _structured_value_to_text(value)
 
-            draw_rtl_text(draw, coordinate_group[field], value, content_font, max_width=width_group.get(field, 700))
+            draw_rtl_text(
+                draw,
+                coordinate_group[field],
+                value,
+                content_font,
+                max_width=width_group.get(field, 700),
+                align_right=True
+            )
 
     output = BytesIO()
     image.save(output, format="PNG")
@@ -221,8 +261,19 @@ def render_lesson_plan(template_type: str, data: dict[str, Any]) -> bytes:
 
 def _structured_value_to_text(value: Any) -> str:
     if isinstance(value, dict):
-        parts = [f"{item}" for key, item in value.items()]
-        return "\n".join(parts)
+        parts = []
+
+        for item in value.values():
+            parts.append(_structured_value_to_text(item))
+
+        return "\n".join(part for part in parts if part.strip())
+
     if isinstance(value, list):
-        return "\n".join(f"{item}" for item in value)
+        parts = []
+
+        for item in value:
+            parts.append(_structured_value_to_text(item))
+
+        return "\n".join(part for part in parts if part.strip())
+
     return str(value)
