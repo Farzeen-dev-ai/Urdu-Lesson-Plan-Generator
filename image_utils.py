@@ -229,7 +229,6 @@ def render_lesson_plan(template_type: str, data: dict[str, Any]) -> bytes:
                 data[field],
                 admin_font,
                 max_width=width_group.get(field, 400),
-                align_right=True
             )
 
     ai_fields = (
